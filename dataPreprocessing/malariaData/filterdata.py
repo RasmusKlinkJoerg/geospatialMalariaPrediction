@@ -46,6 +46,7 @@ def prune_data():
     new_file_map = {}
     new_file = []
     fields = ""
+    long_lat_year = []
 
     # Read data and filter it
     with open('Africa_open_access.csv', encoding="utf8") as csv_file:
@@ -61,7 +62,7 @@ def prune_data():
             # print(row[11])
             start_year = int(row[11])
             # print(start_year)
-            if start_year < 2015:
+            if start_year < 2014:
                 continue
             species = row[19]
             if species == "P. vivax":
@@ -77,8 +78,9 @@ def prune_data():
             examined = int(row[16])
             positive = int(row[17])
 
-            if examined < 58:
-                continue
+
+            # if examined < 58:
+            #     continue
 
             # print(lower_age, upper_age,examined,positive)
             if survey_id in new_file_map:
@@ -88,17 +90,27 @@ def prune_data():
                 new_file_map[survey_id][17] = int(new_file_map[survey_id][17]) + positive
             else:
                 new_file_map[survey_id] = row
+                long_lat_year.append(([float(long), float(lat)], start_year))
+
+
 
             # new_file.append(row)
-    new_file = new_file_map.values()
-    print(len(new_file))
+    new_file_values = new_file_map.values()
+    print(len(new_file_values))
+    print(fields)
 
     # Write file
-    with open('Africa_open_access_pruned_10.csv', 'w', encoding="utf8", newline='') as f:
+    with open('Africa_open_access_pruned_14.csv', 'w', encoding="utf8", newline='') as f:
         # using csv.writer method from CSV package
         write = csv.writer(f)
         write.writerow(fields)
-        write.writerows(new_file)
+        write.writerows(new_file_values)
+
+    # Write file
+    with open('long_lat_year.csv', 'w', encoding="utf8", newline='') as f:
+        # using csv.writer method from CSV package
+        write = csv.writer(f)
+        write.writerows(long_lat_year)
 
 
 prune_data()
