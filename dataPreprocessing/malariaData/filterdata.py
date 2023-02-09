@@ -78,7 +78,6 @@ def prune_data():
             examined = int(row[16])
             positive = int(row[17])
 
-
             # if examined < 58:
             #     continue
 
@@ -91,8 +90,6 @@ def prune_data():
             else:
                 new_file_map[survey_id] = row
                 long_lat_year.append(([float(long), float(lat)], start_year))
-
-
 
             # new_file.append(row)
     new_file_values = new_file_map.values()
@@ -114,3 +111,9 @@ def prune_data():
 
 
 prune_data()
+
+
+
+
+
+
