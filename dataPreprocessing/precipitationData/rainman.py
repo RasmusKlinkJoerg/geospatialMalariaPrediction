@@ -11,6 +11,7 @@ def get_data(filepath):
     # Format of precip data: float32 precip(time, lat, lon)
     precip = ds.variables['precip']
 
+    # Define the data extent (min. lon, min. lat, max. lon, max. lat)
     lon = ds.variables['lon']
     lat = ds.variables['lat']
     lon = np.array(lon)
@@ -19,7 +20,7 @@ def get_data(filepath):
     lon_max = max(np.array(lon))
     lat_min = min(np.array(lat))
     lat_max = max(np.array(lat))
-    coords = (lon_min, lat_min, lon_max, lat_max)
+    extent = [lon_min, lat_min, lon_max, lat_max]
 
     data = np.array(precip)
 
@@ -28,7 +29,7 @@ def get_data(filepath):
 
     # Change NoDataValue to -1
     data[data < 0] = -1
-    return data, coords
+    return data, extent
 
 # Make into tiff file with osgeo-gdal =======================================
 # inspired by https://geonetcast.wordpress.com/2022/05/12/creating-a-geotiff-from-a-numpy-array/
@@ -38,10 +39,7 @@ def getGeoTransform(extent, nlines, ncols):
     resy = (extent[3] - extent[1]) / nlines
     return [extent[0], resx, 0, extent[3], 0, -resy]
 
-def create_tiff_file(filepath, data, coords):
-    # Define the data extent (min. lon, min. lat, max. lon, max. lat)
-    lon_min, lat_min, lon_max, lat_max = coords
-    extent = [lon_min, lat_min, lon_max, lat_max]  # South America
+def create_tiff_file(filepath, data, extent):
 
     # Export the data to GeoTIFF ===
 
@@ -96,7 +94,7 @@ directory = "ncRainData"
 for filename in os.listdir(directory):
     filepath = os.path.join(directory, filename)
     print(filepath)
-    data, coords = get_data(filepath)
-    create_tiff_file(filepath, data, coords)
+    data, extent = get_data(filepath)
+    create_tiff_file(filepath, data, extent)
 
 

@@ -46,7 +46,6 @@ def prune_data():
     new_file_map = {}
     new_file = []
     fields = ""
-    long_lat_year = []
 
     # Read data and filter it
     with open('Africa_open_access.csv', encoding="utf8") as csv_file:
@@ -57,26 +56,26 @@ def prune_data():
                 fields = row
                 line_count += 1
                 continue
-            line_count += 1
 
             # print(row[11])
             start_year = int(row[11])
             # print(start_year)
-            if start_year < 2014:
+            if start_year < 2008:
                 continue
             species = row[19]
-            if species == "P. vivax":
+            if species == 'P. vivax':
                 continue
+            print(species)
 
             site_name = row[3]
             lat = row[4]
             long = row[5]
             start_month = row[10]
-            survey_id = (site_name, lat, long, start_year, start_month)
+            survey_id = (site_name, lat, long, start_year, start_month, species)
             lower_age = row[14]
             upper_age = row[15]
             examined = int(row[16])
-            positive = int(row[17])
+            positive = int(float(row[17]))
 
             # if examined < 58:
             #     continue
@@ -86,14 +85,26 @@ def prune_data():
                 new_file_map[survey_id][14] = min(new_file_map[survey_id][14], lower_age)
                 new_file_map[survey_id][15] = max(new_file_map[survey_id][15], upper_age)
                 new_file_map[survey_id][16] = int(new_file_map[survey_id][16]) + examined
-                new_file_map[survey_id][17] = int(new_file_map[survey_id][17]) + positive
+                new_file_map[survey_id][17] = int(float(new_file_map[survey_id][17])) + positive
             else:
                 new_file_map[survey_id] = row
-                long_lat_year.append(([float(long), float(lat)], start_year))
+
+            line_count += 1
 
             # new_file.append(row)
+
+    long_lat_year = []
+    for i, row in enumerate(new_file_map.values()):
+        start_year = int(row[11])
+        lat = row[4]
+        long = row[5]
+        examined = int(row[16])
+        positive = int(float(row[17]))
+        pr = positive/examined
+        long_lat_year.append((i, float(long), float(lat), start_year, pr))
+
     new_file_values = new_file_map.values()
-    print(len(new_file_values))
+    print("Length", len(new_file_values))
     print(fields)
 
     # Write file
