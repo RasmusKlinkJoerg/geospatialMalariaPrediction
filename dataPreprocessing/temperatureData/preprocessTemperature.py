@@ -6,7 +6,7 @@ from osgeo import gdal, osr, ogr  # Python bindings for GDAL
 
 import cv2
 
-folder_path = "LST2016"
+folder_path = "LST2018"
 
 files = [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
 print(len(files))
@@ -86,7 +86,7 @@ exists_data_array[exists_data_array == 0] = 1
 # Calculate the average
 avg_array = sum_array/exists_data_array
 
-# print_stuff(avg_array)
+print_stuff(avg_array)
 # c = convert_to_celsius(avg_array)
 # print_stuff(c)
 
@@ -119,7 +119,7 @@ def create_tiff_file(folderpath, data, extent):
 
     # Write data for each bands
     outBand = grid_data.GetRasterBand(1)
-    outBand.SetNoDataValue(-1)
+    outBand.SetNoDataValue(0)
     outBand.WriteArray(data)
 
     # Lat/Lon WSG84 Spatial Reference System
@@ -146,6 +146,6 @@ def create_tiff_file(folderpath, data, extent):
     os.remove('grid_data')
 
 
-create_tiff_file(folder_path, data_array, extent)
+create_tiff_file(folder_path, avg_array, extent)
 
 data = None

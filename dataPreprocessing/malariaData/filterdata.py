@@ -1,12 +1,12 @@
 import csv
 
 
-def filterALLdata():
+def filterALLdata(input_file_name, output_file_name):
     new_file = []
     fields = ""
 
     # Read data and filter it
-    with open('ALL_pr.csv', encoding="utf8") as csv_file:
+    with open(input_file_name, encoding="utf8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
@@ -22,24 +22,33 @@ def filterALLdata():
             continent = row[9]
             if continent != "Africa":
                 continue
+            lat = row[4]
+            long = row[5]
+            # print(lat, long)
+            if float(lat) == 0 and float(long) == 0:
+                print("hello")
+                continue
             new_file.append(row)
 
             # if line_count == 100:
             #     break
 
     # Write file
-    with open('Africa_open_access.csv', 'w', encoding="utf8", newline='') as f:
+    with open(output_file_name, 'w', encoding="utf8", newline='') as f:
         # using csv.writer method from CSV package
         write = csv.writer(f)
         write.writerow(fields)
         write.writerows(new_file)
 
-    ##Test
-    for i, row in enumerate(new_file):
-        print(i, row)
-    print(len(new_file))
-    print(fields)
-    print(new_file[0])
+    # ##Test
+    # for i, row in enumerate(new_file):
+    #     print(i, row)
+    # print(len(new_file))
+    # print(fields)
+    # print(new_file[0])
+
+
+filterALLdata("ALL_pr_plus.csv", "Africa_with_confidential.csv")
 
 
 def prune_data():
@@ -65,7 +74,7 @@ def prune_data():
             species = row[19]
             if species == 'P. vivax':
                 continue
-            print(species)
+            # print(species)
 
             site_name = row[3]
             lat = row[4]
@@ -104,8 +113,8 @@ def prune_data():
         long_lat_year.append((i, float(long), float(lat), start_year, pr))
 
     new_file_values = new_file_map.values()
-    print("Length", len(new_file_values))
-    print(fields)
+    # print("Length", len(new_file_values))
+    # print(fields)
 
     # Write file
     with open('Africa_open_access_pruned_14.csv', 'w', encoding="utf8", newline='') as f:
@@ -120,7 +129,7 @@ def prune_data():
         write = csv.writer(f)
         write.writerows(long_lat_year)
 
-
+#'Africa_open_access.csv'
 prune_data()
 
 
