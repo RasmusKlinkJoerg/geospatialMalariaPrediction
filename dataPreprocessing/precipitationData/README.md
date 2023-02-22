@@ -1,4 +1,4 @@
-Precipitation (rain) data: 
+# Precipitation (rain) data: 
 
 The dataset can be found at the following url:
 https://psl.noaa.gov/mddb2/makePlot.html?variableID=1627&fileID=532575
@@ -14,9 +14,9 @@ Other selections (which are selected as default on the website):
 - Projection: Cylindrical Equidistant 
 
 The region Africa has the following geografic extent:
-Africa: lon_min, lon_max, lat_min, lat_max = -19.875, 114.875, -39.875, 39.875
+Africa: `lon_min`, `lon_max`, `lat_min`, `lat_max = -19.875`, `114.875`, `-39.875`, `39.875`
 
-Testing: 
+# Testing: 
 - With print statements we have checked that min and max values are matching on encoding and decoding side, 
  i.e. in rainman.py and land_cover_extraction.ipynb.
 - Manual inspection test on decoding side (land_cover_extraction.ipynb) indicates we get the correct location. It was tested the same way as Temperature data.
