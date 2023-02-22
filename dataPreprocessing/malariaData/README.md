@@ -1,6 +1,6 @@
 Malaria data from the Malaria Atlas Project (MAP):
 
---- Getting the data ---:
+# Getting the data
 Install R, the programming language.
 Use the R package described here: https://cran.r-project.org/web/packages/malariaAtlas/index.html.
 To download the package and its dependencies run the first part of the R script MAP_data_downloading.R.
@@ -15,5 +15,5 @@ days you should have access to the data.
 The confidential data can be accessed with the R library with the fillDHSCoordinates method (see the R script).
 
 
---- Details about what the data contains ---:
+# Details about what the data contains
 See the report.
