@@ -69,7 +69,7 @@ def prune_data():
                 continue
 
             start_year = int(row[11])
-            if start_year < 2010:
+            if start_year != 2010 and start_year != 2015:
                 continue
             species = row[19]
             if species == 'P. vivax':
