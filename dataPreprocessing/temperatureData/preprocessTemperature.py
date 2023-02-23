@@ -1,42 +1,31 @@
 from os import listdir
 from os.path import isfile, join
-
 import numpy as np
 from osgeo import gdal, osr, ogr  # Python bindings for GDAL
 
-import cv2
 
 folder_path = "LST2018"
 
 files = [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
-print(len(files))
 
-print(files[0])
 file_name = files[0]
 file_path = folder_path + "/" + file_name
 
 data = gdal.Open(file_path)
-print(type(data))
 geoTransform = data.GetGeoTransform()
 minx = geoTransform[0]
 maxy = geoTransform[3]
 maxx = minx + geoTransform[1] * data.RasterXSize
 miny = maxy + geoTransform[5] * data.RasterYSize
-print([minx, miny, maxx, maxy])
 
 # Define the data extent (min. lon, min. lat, max. lon, max. lat)
 lon_min, lat_min, lon_max, lat_max = minx, miny, maxx, maxy
 extent = [lon_min, lat_min, lon_max, lat_max]
 
-print(type(data))
-
-print("Raster count:", data.RasterCount)
-
 band = data.GetRasterBand(1)
 data_array = band.ReadAsArray()
 
 data_shape = data_array.shape
-print(data_array.shape)
 
 snip = data_array[2000, :]
 
@@ -49,7 +38,7 @@ def print_stuff(arr):
     s = set(f)
     l = sorted(list(s))
     print("Lowest unique values:", l[:10])
-    print("Highest unique values:",  l[-10:])
+    print("Highest unique values:", l[-10:])
 
 
 # print_stuff(snip)
@@ -59,6 +48,7 @@ def print_stuff(arr):
 def convert_to_celsius(arr):
     arr = arr * 0.02 - 273.15
     return arr
+
 
 # data_array_celsius = convert_to_celsius(data_array)
 # print_stuff(data_array_celsius)
@@ -84,9 +74,11 @@ for file_name in files:
 exists_data_array[exists_data_array == 0] = 1
 
 # Calculate the average
-avg_array = sum_array/exists_data_array
+avg_array = sum_array / exists_data_array
 
 print_stuff(avg_array)
+
+
 # c = convert_to_celsius(avg_array)
 # print_stuff(c)
 
@@ -99,8 +91,8 @@ def getGeoTransform(extent, nlines, ncols):
     resy = (extent[3] - extent[1]) / nlines
     return [extent[0], resx, 0, extent[3], 0, -resy]
 
-def create_tiff_file(folderpath, data, extent):
 
+def create_tiff_file(folderpath, data, extent):
     # Export the data to GeoTIFF ===
 
     # Get GDAL driver GeoTiff

@@ -32,9 +32,7 @@ def filterALLdata(input_file_name, output_file_name):
                 continue
             lat = row[4]
             long = row[5]
-            # print(lat, long)
-            if float(lat) == 0 and float(long) == 0:
-                print("hello")
+            if float(lat) == 0 and float(long) == 0:  # Filter out if on "zero island"
                 continue
             new_file.append(row)
 
@@ -113,7 +111,7 @@ def prune_data():
     new_file_values = new_file_map.values()
 
     # Write file
-    with open('Africa_with_confidential_pruned_10.csv', 'w', encoding="utf8", newline='') as f:
+    with open('Africa_with_confidential_pruned_someName.csv', 'w', encoding="utf8", newline='') as f:
         # using csv.writer method from CSV package
         write = csv.writer(f)
         write.writerow(fields)
@@ -126,7 +124,6 @@ def prune_data():
         write.writerows(long_lat_year)
 
 
-# 'Africa_open_access.csv'
 prune_data()
 
 
