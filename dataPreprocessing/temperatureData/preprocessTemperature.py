@@ -76,7 +76,17 @@ exists_data_array[exists_data_array == 0] = 1
 # Calculate the average
 avg_array = sum_array / exists_data_array
 
+
+celsius_arr = convert_to_celsius(avg_array)
+
+print("avg_arr")
 print_stuff(avg_array)
+
+
+print("celsius_arr")
+print_stuff(celsius_arr)
+
+
 
 
 # c = convert_to_celsius(avg_array)
@@ -138,6 +148,6 @@ def create_tiff_file(folderpath, data, extent):
     os.remove('grid_data')
 
 
-create_tiff_file(folder_path, avg_array, extent)
+# create_tiff_file(folder_path, avg_array, extent)
 
 data = None

@@ -1,5 +1,7 @@
 import csv
 
+import numpy as np
+
 
 def filterALLdata(input_file_name, output_file_name):
     new_file = []
@@ -57,6 +59,7 @@ filterALLdata("TANZ_plus.csv", "Tanzania_with_confidential_2.csv")
 def prune_data():
     new_file_map = {}
     fields = ""
+    pr_list = [] # for printing average pr
 
     # Read data and filter it
     with open('Africa_with_confidential.csv', encoding="utf8") as csv_file:
@@ -69,7 +72,8 @@ def prune_data():
                 continue
 
             start_year = int(row[11])
-            if start_year != 2010 and start_year != 2015:
+            # if start_year != 2010 and start_year != 2015:
+            if start_year < 2010:
                 continue
             species = row[19]
             if species == 'P. vivax':
@@ -98,6 +102,12 @@ def prune_data():
                 new_file_map[survey_id] = row
             line_count += 1
 
+    # # Extra pruning
+    # for key, row in new_file_map.items():
+    #     examined = int(row[16])
+    #     positive = int(float(row[17]))
+    #     pr = positive / examined
+
     long_lat_year = []
     for i, row in enumerate(new_file_map.values()):
         start_year = int(row[11])
@@ -106,9 +116,13 @@ def prune_data():
         examined = int(row[16])
         positive = int(float(row[17]))
         pr = positive / examined
-        long_lat_year.append((i, float(long), float(lat), start_year, pr))
+        pr_list.append(pr) # for printing average pr
+        long_lat_year.append((i, float(long), float(lat), start_year, pr, examined))
 
     new_file_values = new_file_map.values()
+
+    print("len(pr_list)", len(pr_list)) # for printing average pr
+    print("np.average(pr_list)", np.average(pr_list)) # for printing average pr
 
     # Write file
     with open('Africa_with_confidential_pruned_someName.csv', 'w', encoding="utf8", newline='') as f:

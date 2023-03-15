@@ -5,7 +5,7 @@ import cv2
 
 from osgeo import gdal, osr, ogr  # Python bindings for GDAL
 
-fn = "ncRainData/2020rain_africa.nc"
+fn = "ncRainData/2015rain_africa.nc"
 ds = nc.Dataset(fn)
 
 # Format of precip data: float32 precip(time, lat, lon)
@@ -20,7 +20,7 @@ lon_max = max(np.array(lon))
 lat_min = min(np.array(lat))
 lat_max = max(np.array(lat))
 
-# print(lat_min, lat_max, lon_min, lon_max)
+print(lat_min, lat_max, lon_min, lon_max)
 
 data = np.array(precip)
 print("min val", np.amin(data), "max val", np.amax(data))
@@ -78,7 +78,14 @@ print(data.shape)
 
 # Change NoDataValue to -1
 data[data < 0] = -1
+print("whole data average", np.average(data))
 print("min val", np.amin(data), "max val", np.amax(data))
+
+f = data.flatten()
+s = set(f)
+l = sorted(list(s))
+print("Lowest unique values:", l[:10])
+print("Highest unique values:", l[-10:])
 
 
 # Make into tiff file with osgeo-gdal =======================================
@@ -123,9 +130,9 @@ grid_data.SetProjection(srs.ExportToWkt())
 grid_data.SetGeoTransform(getGeoTransform(extent, nlines, ncols))
 
 # Save the file
-file_name = 'my_test_data.tif'
-print(f'Generated GeoTIFF: {file_name}')
-driver.CreateCopy(file_name, grid_data, 0)
+# file_name = 'my_test_data.tif'
+# print(f'Generated GeoTIFF: {file_name}')
+# driver.CreateCopy(file_name, grid_data, 0)
 
 # Close the file
 driver = None
