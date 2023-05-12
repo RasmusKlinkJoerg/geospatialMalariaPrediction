@@ -4,7 +4,7 @@ from collections import Counter
 import numpy as np
 import matplotlib.pyplot as plt
 
-filename = 'long_lat_year_pr_examined.csv'
+filename = 'long_lat_year_country.csv'
 # filename = 'Africa_with_confidential.csv'
 
 intervals = [(0.0, 0.0), (0.000001, 0.2), (0.20000001, 0.49999999), (0.5, 1)]
@@ -46,7 +46,7 @@ print(len(pruned_long_lat_year_list))
 print(pruned_long_lat_year_list)
 
 # Write file
-with open('pruned_long_lat_year.csv', 'w', encoding="utf8", newline='') as f:
+with open('pruned_long_lat_year_country.csv', 'w', encoding="utf8", newline='') as f:
     # using csv.writer method from CSV package
     print("hello")
     write = csv.writer(f)

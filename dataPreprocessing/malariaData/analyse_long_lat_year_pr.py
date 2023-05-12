@@ -4,16 +4,21 @@ from collections import Counter
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # filename = 'long_lat_year_with_confidential_from2010to18_size10orGreater.csv'
-filename = 'pruned_long_lat_year_pr_examined_with_confidential_from2010to18_size10orGreater.csv'
+# filename = 'pruned_long_lat_year_pr_examined_with_confidential_from2010to18_size10orGreater.csv'
 # filename = 'Africa_with_confidential.csv'
+filename = 'long_lat_year_country.csv'
+# filename = "long_lat_year_country_1992onwards_min5examined.csv"
 
 pr_list = []
+country_list = []
 with open(filename, encoding="utf8") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
         pr_list.append(float(row[4]))
+        country_list.append(row[6])
 
 # Plot Histogram on x
 # x = np.random.normal(size = 1000)
@@ -26,8 +31,8 @@ print("avg", np.mean(pr_list), "median", np.median(pr_list))
 
 total_lenght = len(pr_list)
 print(len(pr_list))
-nonzeros = pr_list.count(0.0)
-print(nonzeros)
+zeros = pr_list.count(0.0)
+print("zeros", zeros)
 
 # intervals = [(0, 0), (0.0001, 0.33), (0.333, 0.66), (0.666, 1)]
 intervals = [(0, 0), (0.000001, 0.49999999), (0.5, 1)]
@@ -36,7 +41,7 @@ intervals = [(0, 0), (0.000001, 0.49999999), (0.5, 1)]
 
 no_zeros_list = [x for x in pr_list if x != 0.0]
 print("no zero list", len(no_zeros_list))
-intervals_new = [(0, 0),(0.000001, 0.2), (0.20000001, 0.49999999), (0.5, 1)]
+intervals_new = [(0, 0), (0.000001, 0.2), (0.20000001, 0.49999999), (0.5, 1)]
 
 
 print("------- no zeros intervals")
@@ -63,3 +68,20 @@ print(len(no_zero))
 plt.hist(np.asarray(no_zero, float), bins=100)
 plt.gca().set(title='Frequency Histogram')
 plt.show()
+
+#
+plt.hist(country_list)
+plt.xticks(rotation=90)
+plt.show()
+
+# a = country_list.count("Tanzania")
+# print(a)
+#
+# a = country_list.count("Madagascar")
+# print(a)
+#
+#
+# a = np.unique(np.array(country_list), return_counts=True)
+# print(a)
+#
+# print(len(country_list))

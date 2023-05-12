@@ -36,8 +36,11 @@ colors = ['#000080', '#648c00', '#929900', '#a0dc00', '#8d7400', '#8db400', '#66
 land_cover_classes = land_cover_classes[::-1]
 colors = colors[::-1]
 
+file = "landcover_1992onwards_min5examined/3.tiff"
+
+
 # Open the image
-img = Image.open("test.tiff")
+img = Image.open(file)
 
 # Create new rgb image
 rgbimg = Image.new("RGBA", img.size)

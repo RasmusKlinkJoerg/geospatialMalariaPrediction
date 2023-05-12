@@ -73,14 +73,14 @@ def prune_data():
 
             start_year = int(row[11])
             # if start_year != 2010 and start_year != 2015:
-            if start_year < 2010:
+            if start_year < 1992:
                 continue
             species = row[19]
             if species == 'P. vivax':
                 continue
 
             examined = int(row[16])
-            if examined < 10:
+            if examined < 50:
                 continue
 
             site_name = row[3]
@@ -113,11 +113,12 @@ def prune_data():
         start_year = int(row[11])
         lat = row[4]
         long = row[5]
+        country = row[7]
         examined = int(row[16])
         positive = int(float(row[17]))
         pr = positive / examined
         pr_list.append(pr) # for printing average pr
-        long_lat_year.append((i, float(long), float(lat), start_year, pr, examined))
+        long_lat_year.append((i, float(long), float(lat), start_year, pr, examined, country))
 
     new_file_values = new_file_map.values()
 
@@ -132,7 +133,7 @@ def prune_data():
         write.writerows(new_file_values)
 
     # Write file
-    with open('long_lat_year.csv', 'w', encoding="utf8", newline='') as f:
+    with open('long_lat_year_country.csv', 'w', encoding="utf8", newline='') as f:
         # using csv.writer method from CSV package
         write = csv.writer(f)
         write.writerows(long_lat_year)
